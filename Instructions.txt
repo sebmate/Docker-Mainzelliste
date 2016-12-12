@@ -1,0 +1,33 @@
+# This installs and configures Mainzelliste in Docker.
+# Made by Sebastian Mate (sebastian.mate@fau.de) as part of the Dockerbank TMF project in June 2016
+
+# Installation procedure:
+
+#   - Modify mainzelliste.conf to your desired database settings (i.e., password, database name), modify the 4th command below accordingly.
+#   - Execute the command below, which should start the Mainzelliste docker container. There, execute the "post-installation" commands from below.
+#   - Access http://localhost:8080/mainzelliste-1.5.0/
+
+# Delete, install and run the Postgres container:
+
+docker pull postgres:latest
+docker stop postgres-mainzelliste
+docker rm postgres-mainzelliste
+docker run --name postgres-mainzelliste -e POSTGRES_PASSWORD=mainzelliste -e POSTGRES_USER=mainzelliste -e POSTGRES_DB=mainzelliste -d postgres
+
+# Delete, install and run the Mainzelliste container:
+
+docker stop mainzelliste
+docker rm mainzelliste
+docker build -t tmfev/mainzelliste:1.00 .
+docker run --cap-add=SYS_PTRACE -v /etc/localtime:/etc/localtime:ro -it -p 8080:8080 --name mainzelliste --link postgres-mainzelliste:postgres tmfev/mainzelliste:1.00 /bin/bash
+
+# In the container, run (post-installation):
+
+service tomcat7 start
+cp jersey-archive-1.17.1/lib/* /var/lib/tomcat7/webapps/mainzelliste-1.5.0/WEB-INF/lib/
+cp postgresql-9.4.1208.jar /var/lib/tomcat7/webapps/mainzelliste-1.5.0/WEB-INF/lib/
+service tomcat7 restart
+
+# To display the Tomcat server log, run:
+
+cat /var/lib/tomcat7/logs/catalina.out
