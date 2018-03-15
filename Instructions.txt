@@ -5,7 +5,7 @@
 
 #   - Modify mainzelliste.conf to your desired database settings (i.e., password, database name), modify the 4th command below accordingly.
 #   - Execute the command below, which should start the Mainzelliste docker container. There, execute the "post-installation" commands from below.
-#   - Access http://localhost:8080/mainzelliste-1.5.0/
+#   - Access http://localhost:8080/mainzelliste-1.6.1/
 
 # Delete, install and run the Postgres container:
 
@@ -24,8 +24,8 @@ docker run --cap-add=SYS_PTRACE -v /etc/localtime:/etc/localtime:ro -it -p 8080:
 # In the container, run (post-installation):
 
 service tomcat7 start
-cp jersey-archive-1.17.1/lib/* /var/lib/tomcat7/webapps/mainzelliste-1.5.0/WEB-INF/lib/
-cp postgresql-9.4.1208.jar /var/lib/tomcat7/webapps/mainzelliste-1.5.0/WEB-INF/lib/
+cp jersey-archive-1.17.1/lib/* /var/lib/tomcat7/webapps/mainzelliste-1.6.1/WEB-INF/lib/
+cp postgresql-9.4.1208.jar /var/lib/tomcat7/webapps/mainzelliste-1.6.1/WEB-INF/lib/
 service tomcat7 restart
 
 # To display the Tomcat server log, run:

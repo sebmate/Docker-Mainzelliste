@@ -25,10 +25,11 @@ COPY settings.xml /root/.m2/
 
 # Checkout source code and build it:
 
-RUN git clone https://bitbucket.org/medinfo_mainz/mainzelliste.git
+RUN git clone https://bitbucket.org/medicalinformatics/mainzelliste.git
 WORKDIR mainzelliste
+RUN git fetch & git checkout v1.6.1
 RUN mvn clean install
-RUN cp target/mainzelliste-1.5.0.war /var/lib/tomcat7/webapps/
+RUN cp target/mainzelliste-1.6.1.war /var/lib/tomcat7/webapps/
 
 # Download necessary Java libraries:
 
